@@ -46,7 +46,7 @@
   &-cover {
     border-radius: 8px;
     margin: 40px -50px;
-    width: 860px;
+    // width: 860px;
     max-width: 860px;
 
     @media #{$media-size-tablet} {
@@ -89,10 +89,6 @@
     }
   }
 
-  .flag {
-    border-radius: 50%;
-    margin: 0 5px;
-  }
 }
 
 .pagination {

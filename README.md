@@ -166,7 +166,6 @@ If you spot any bugs, please use [Issue Tracker](https://github.com/rhazdon/hugo
 
   - [normalize.css](https://github.com/necolas/normalize.css)
   - [Feather Open Source Icons](https://github.com/feathericons/feather)
-  - [Flag Icon](https://github.com/lipis/flag-icon-css)
 
 
 ## Licence

@@ -1,3 +1,14 @@
 {{- if .Site.DisqusShortname }}
     {{ template "_internal/disqus.html" . }}
 {{- end }}
+<script type="text/javascript">
+  var commentsScript = document.createElement('script');
+  commentsScript.setAttribute("src", "https://utteranc.es/client.js");
+  commentsScript.setAttribute("crossorigin","anonymous");
+  commentsScript.setAttribute("async", true);
+  commentsScript.setAttribute("repo", "robbiet480/robbiet480.github.io");
+  commentsScript.setAttribute("issue-term", "title");
+  commentsScript.setAttribute("theme", "github-dark");
+  commentsScript.setAttribute("label", "blog-comments");
+  document.querySelector('#comments').appendChild(commentsScript);
+</script>

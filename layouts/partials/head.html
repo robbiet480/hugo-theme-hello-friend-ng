@@ -2,7 +2,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author"
-    content="{{ if .Params.author }}{{ .Params.author }}{{ else }}{{ range .Site.Author }}{{ . }} {{ end }}{{ end }}">
+    content="{{ if .Params.author }}{{ .Params.author }}{{ else }}{{ range .Site.Author }}{{ . }}{{ end }}{{ end }}">
 <meta name="description"
     content="{{ if .IsHome }}{{ .Site.Params.homeSubtitle }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
 <meta name="keywords" content="{{ .Site.Params.keywords }}" />
@@ -10,18 +10,8 @@
 <link rel="canonical" href="{{ .Permalink }}" />
 
 {{ block "title" . }}
-<title>
-    {{ if .IsHome }}
-    {{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} — {{ . }} {{ end }}
-    {{ else }}
-    {{ .Title }} :: {{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} — {{ . }}{{ end }}
-    {{ end }}
-</title>
+<title>{{ if .IsHome }}{{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} — {{ . }} {{ end }}{{ else }}{{ .Title }} :: {{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} — {{ . }}{{ end }}{{ end }}</title>
 {{ end }}
-
-<!-- CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
-    type="text/css">
 
 {{ $options := (dict "targetPath" "main.css" "outputStyle" "compressed" "enableSourceMap" true) }}
 {{ $style := resources.Get "scss/main.scss" | resources.ToCSS $options | resources.Minify | resources.Fingerprint }}
@@ -38,6 +28,7 @@
 
 {{- template "_internal/schema.html" . }}
 {{- template "_internal/twitter_cards.html" . }}
+{{- template "_internal/opengraph.html" . }}
 
 {{ range .Params.categories }}
 <meta property="article:section" content="{{ . }}" />{{ end }}
@@ -46,14 +37,14 @@
 
 <!-- RSS -->
 {{ with .OutputFormats.Get "rss" -}}
-    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ printf `<link href="%s" rel="%s" type="%s" title="%s" />` .Permalink .Rel .MediaType.Type $.Site.Title | safeHTML }}
 {{ end -}}
 
 <!-- JSON Feed -->
-{{ if .OutputFormats.Get "json" }}
-<link href="{{ if .OutputFormats.Get "json" }}{{ .Site.BaseURL }}feed.json{{ end }}" rel="alternate"
-    type="application/json" title="{{ .Site.Title }}" />
-{{ end }}
+{{ with  .OutputFormats.Get "JF2Feed" -}}<link href="{{ .Permalink }}" rel="alternate" type="application/json" title="{{ $.Site.Title }}" />{{- end }}
+
+<!-- Atom -->
+{{ with  .OutputFormats.Get "Atom" -}}<link href="{{ .Permalink }}" rel="alternate" type="application/atom+xml" title="{{ $.Site.Title }}" />{{- end }}
 
 <!-- Custom head tags -->
 {{- if templates.Exists "partials/extra-head.html" -}}
